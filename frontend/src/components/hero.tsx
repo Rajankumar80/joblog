@@ -1,3 +1,4 @@
+
 import { HandHelping, Users, Zap } from "lucide-react";
 import React from "react";
 
@@ -47,7 +48,7 @@ const Hero45 = ({
         <div className="mb-20 flex flex-col items-center gap-6 text-center">
           <h1 className="text-4xl font-semibold lg:text-5xl">{heading}</h1>
         </div>
-        <div className="relative mx-auto max-w-5xl">
+        <div className="relative mx-auto max-w-8xl">
           <img
             src={imageSrc}
             alt={imageAlt}
@@ -57,7 +58,7 @@ const Hero45 = ({
           <div className="absolute -top-28 -right-28 -z-10 aspect-video h-72 w-96 [background-size:12px_12px] opacity-40 [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_20%,transparent_100%)] sm:bg-[radial-gradient(hsl(var(--muted-foreground))_1px,transparent_1px)]"></div>
           <div className="absolute -top-28 -left-28 -z-10 aspect-video h-72 w-96 [background-size:12px_12px] opacity-40 [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_20%,transparent_100%)] sm:bg-[radial-gradient(hsl(var(--muted-foreground))_1px,transparent_1px)]"></div>
         </div>
-        <div className="mx-auto mt-10 flex max-w-5xl flex-col md:flex-row">
+        <div className="mx-auto mt-10 flex max-w-6xl flex-col md:flex-row">
           {features.map((feature, index) => (
             <React.Fragment key={feature.title}>
               {index > 0 && (
