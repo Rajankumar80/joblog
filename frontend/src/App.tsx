@@ -2,7 +2,7 @@ import { Navbar1 as Navbar } from "./components/navbar"
 import { Hero   } from "./components/hero"
 import { JobListing } from "./components/jobListing"
 import { Cta } from "./components/cta"
-
+import { Footer } from "./components/footer"
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
             url: "https://www.shadcnblocks.com",
           },
         }} />
+        <Footer />
       </div>
     </>
   )

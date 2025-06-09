@@ -22,55 +22,53 @@ interface Footer2Props {
   }[];
 }
 
-const Footer2 = ({
+const Footer = ({
   logo = {
-    src: "https://shadcnblocks.com/images/block/block-1.svg",
-    alt: "blocks for shadcn/ui",
-    title: "Shadcnblocks.com",
-    url: "https://www.shadcnblocks.com",
+    src: "https://www.svgrepo.com/show/322479/half-log.svg",
+    alt: "Joblog",
+    title: "Joblog",
+    url: "/",
   },
-  tagline = "Components made easy.",
+  tagline = "Find your dream job today.",
   menuItems = [
     {
-      title: "Product",
+      title: "Jobs",
       links: [
-        { text: "Overview", url: "#" },
-        { text: "Pricing", url: "#" },
-        { text: "Marketplace", url: "#" },
-        { text: "Features", url: "#" },
-        { text: "Integrations", url: "#" },
-        { text: "Pricing", url: "#" },
+        { text: "Browse Jobs", url: "/jobs" },
+        { text: "Post a Job", url: "/jobs/post" },
+        { text: "Saved Jobs", url: "/jobs/saved" },
+        { text: "Job Alerts", url: "/jobs/alerts" },
       ],
     },
     {
-      title: "Company",
+      title: "Companies",
       links: [
-        { text: "About", url: "#" },
-        { text: "Team", url: "#" },
-        { text: "Blog", url: "#" },
-        { text: "Careers", url: "#" },
-        { text: "Contact", url: "#" },
-        { text: "Privacy", url: "#" },
+        { text: "Top Companies", url: "/companies/top" },
+        { text: "Browse Companies", url: "/companies" },
+        { text: "Company Reviews", url: "/companies/reviews" },
+        { text: "Featured Employers", url: "/companies/featured" },
       ],
     },
     {
       title: "Resources",
       links: [
-        { text: "Help", url: "#" },
-        { text: "Sales", url: "#" },
-        { text: "Advertise", url: "#" },
+        { text: "Help Center", url: "/help" },
+        { text: "Contact Us", url: "/contact" },
+        { text: "System Status", url: "/status" },
+        { text: "Terms of Service", url: "/terms" },
       ],
     },
     {
-      title: "Social",
+      title: "Connect",
       links: [
-        { text: "Twitter", url: "#" },
-        { text: "Instagram", url: "#" },
-        { text: "LinkedIn", url: "#" },
+        { text: "Twitter", url: "https://twitter.com" },
+        { text: "LinkedIn", url: "https://linkedin.com" },
+        { text: "Instagram", url: "https://instagram.com" },
+        { text: "Blog", url: "/blog" },
       ],
     },
   ],
-  copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
+  copyright = "© 2025 Joblog. All rights reserved.",
   bottomLinks = [
     { text: "Terms and Conditions", url: "#" },
     { text: "Privacy Policy", url: "#" },
@@ -127,4 +125,4 @@ const Footer2 = ({
   );
 };
 
-export { Footer2 };
+export { Footer };
