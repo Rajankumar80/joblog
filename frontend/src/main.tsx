@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+
 import NotFoundPage from './pages/NotFoundPage.tsx'
 import Index from './pages/index.tsx'
 import Login from './pages/login.tsx'

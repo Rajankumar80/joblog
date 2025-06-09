@@ -1,0 +1,76 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+interface Company {
+  id: number;
+  name: string;
+  description: string;
+  website: string;
+  logo: string | null;
+  location: string;
+  employee_count: number;
+  founded_year: number;
+  industry: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface Tag {
+  id: number;
+  name: string;
+  is_skill: boolean;
+  created_at: string;
+}
+
+export interface Job {
+  id: number;
+  company: Company;
+  tags: Tag[];
+  title: string;
+  description: string;
+  location: string;
+  salary_min: string;
+  salary_max: string;
+  job_type: string;
+  work_mode: string;
+  application_url: string;
+  posted_date: string;
+  deadline: string;
+  is_active: boolean;
+  is_featured: boolean;
+  posted_by: string | null;
+}
+
+interface JobsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Job[];
+}
+
+export function useJobs(limit = 6) {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<JobsResponse>(
+          `http://127.0.0.1:9000/jobs/?format=json&limit=${limit}`
+        );
+        setJobs(response.data.results);
+      } catch (err: any) {
+        setError(err.message || "Error fetching jobs");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, [limit]);
+
+  return { jobs, loading, error };
+}
