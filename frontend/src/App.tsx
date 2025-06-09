@@ -1,11 +1,11 @@
-import { Navbar1 } from "./components/custom/Navbar"
+import { Navbar1 as Navbar } from "./components/navbar1"
 
 
 function App() {
   return (
     <>
       <div className="container mx-auto">
-        <Navbar1 />
+        <Navbar />
       </div>
     </>
   )

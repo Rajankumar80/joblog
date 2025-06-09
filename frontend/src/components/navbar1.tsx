@@ -53,41 +53,58 @@ interface Navbar1Props {
 
 const Navbar1 = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://shadcnblocks.com/images/block/logos/shadcnblockscom-icon.svg",
+    url: "/",
+    src: "https://www.svgrepo.com/show/322479/half-log.svg",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "Joblog",
   },
   menu = [
-    { title: "Home", url: "#" },
+    { title: "Home", url: "/" },
     {
-      title: "Products",
-      url: "#",
+      title: "Jobs",
+      url: "/jobs",
       items: [
         {
-          title: "Blog",
-          description: "The latest industry news, updates, and info",
+          title: "Browse Jobs",
+          description: "Explore job listings across industries and locations",
           icon: <Book className="size-5 shrink-0" />,
-          url: "#",
+          url: "/jobs",
         },
         {
-          title: "Company",
-          description: "Our mission is to innovate and empower the world",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Careers",
-          description: "Browse job listing and discover our workspace",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
-        },
-        {
-          title: "Support",
-          description:
-            "Get in touch with our support team or visit our community forums",
+          title: "Post a Job",
+          description: "Employers can post job opportunities here",
           icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
+          url: "/jobs/post",
+        },
+        {
+          title: "Saved Jobs",
+          description: "View jobs you've saved for later",
+          icon: <Sunset className="size-5 shrink-0" />,
+          url: "/jobs/saved",
+        },
+        {
+          title: "Job Alerts",
+          description: "Get notified about new job openings",
+          icon: <Trees className="size-5 shrink-0" />,
+          url: "/jobs/alerts",
+        },
+      ],
+    },
+    {
+      title: "Companies",
+      url: "/companies",
+      items: [
+        {
+          title: "Top Companies",
+          description: "Discover companies hiring right now",
+          icon: <Trees className="size-5 shrink-0" />,
+          url: "/companies/top",
+        },
+        {
+          title: "Browse Companies",
+          description: "Find companies by industry and location",
+          icon: <Book className="size-5 shrink-0" />,
+          url: "/companies",
         },
       ],
     },
@@ -99,36 +116,28 @@ const Navbar1 = ({
           title: "Help Center",
           description: "Get all the answers you need right here",
           icon: <Zap className="size-5 shrink-0" />,
-          url: "#",
+          url: "/help",
         },
         {
           title: "Contact Us",
-          description: "We are here to help you with any questions you have",
+          description: "We are here to help you with any questions",
           icon: <Sunset className="size-5 shrink-0" />,
-          url: "#",
+          url: "/contact",
         },
         {
           title: "Status",
-          description: "Check the current status of our services and APIs",
+          description: "Check current system status",
           icon: <Trees className="size-5 shrink-0" />,
-          url: "#",
+          url: "/status",
         },
         {
           title: "Terms of Service",
-          description: "Our terms and conditions for using our services",
+          description: "Our terms and conditions",
           icon: <Book className="size-5 shrink-0" />,
-          url: "#",
+          url: "/terms",
         },
       ],
-    },
-    {
-      title: "Pricing",
-      url: "#",
-    },
-    {
-      title: "Blog",
-      url: "#",
-    },
+    }
   ],
   auth = {
     login: { title: "Login", url: "#" },
