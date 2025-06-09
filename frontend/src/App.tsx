@@ -1,10 +1,13 @@
-import { Button } from "@/components/ui/button"
+import { Navbar1 } from "./components/custom/Navbar"
+
 
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
-    </div>
+    <>
+      <div className="container mx-auto">
+        <Navbar1 />
+      </div>
+    </>
   )
 }
 
