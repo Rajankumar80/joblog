@@ -168,7 +168,6 @@ const Navbar1 = ({
           </div>
 
           <div className="flex gap-2">
-            <Input placeholder="Search jobs" />
             <Button asChild variant="outline" size="">
               <a href={auth.login.url}>{auth.login.title}</a>
             </Button>
