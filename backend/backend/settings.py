@@ -43,6 +43,13 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     
+    'PAGE_SIZE': 6,  
+    'PAGE_QUERY_PARAM': 'page',  
+    'PAGE_SIZE_QUERY_PARAM': 'page_size',  
+    'MAX_PAGE_SIZE': 50,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+    ,
+    
         'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
