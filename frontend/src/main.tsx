@@ -5,6 +5,7 @@ import NotFoundPage from './pages/NotFoundPage.tsx'
 import Index from './pages/index.tsx'
 import Login from './pages/login.tsx'
 import Signup from './pages/signup.tsx'
+import Jobs from './pages/jobs.tsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/jobs",
+    element: <Jobs />,
   },
   {
     path: "*",

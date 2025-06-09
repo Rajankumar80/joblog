@@ -166,8 +166,8 @@ const Navbar1 = ({
               </NavigationMenu>
             </div>
           </div>
-      
-          <div className="flex gap-2">    
+
+          <div className="flex gap-2">
             <Input placeholder="Search jobs" />
             <Button asChild variant="outline" size="">
               <a href={auth.login.url}>{auth.login.title}</a>
@@ -224,6 +224,7 @@ const Navbar1 = ({
           </div>
         </div>
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

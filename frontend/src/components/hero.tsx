@@ -43,7 +43,7 @@ const Hero = ({
   ],
 }: Hero45Props) => {
   return (
-    <section className="py-32">
+    <section className="py-12">
       <div className="container overflow-hidden">
         <div className="mb-20 flex flex-col items-center gap-6 text-center">
           <h1 className="text-4xl font-semibold lg:text-5xl">{heading}</h1>
