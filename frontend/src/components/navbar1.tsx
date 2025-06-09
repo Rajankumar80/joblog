@@ -1,4 +1,5 @@
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Input } from "@/components/ui/input"
 
 import {
   Accordion,
@@ -165,11 +166,13 @@ const Navbar1 = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
+      
+          <div className="flex gap-2">    
+            <Input placeholder="Search jobs" />
+            <Button asChild variant="outline" size="">
               <a href={auth.login.url}>{auth.login.title}</a>
             </Button>
-            <Button asChild size="sm">
+            <Button asChild size="">
               <a href={auth.signup.url}>{auth.signup.title}</a>
             </Button>
           </div>
@@ -204,7 +207,9 @@ const Navbar1 = ({
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
-
+                  <div className="flex flex-col gap-3">
+                    <Input placeholder="Search jobs" />
+                  </div>
                   <div className="flex flex-col gap-3">
                     <Button asChild variant="outline">
                       <a href={auth.login.url}>{auth.login.title}</a>
