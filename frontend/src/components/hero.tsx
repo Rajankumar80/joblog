@@ -17,7 +17,7 @@ interface Hero45Props {
   features?: Feature[];
 }
 
-const Hero45 = ({
+const Hero = ({
   heading = "Find your dream job",
   imageSrc = "https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_1280.jpg",
   imageAlt = "placeholder",
@@ -87,4 +87,4 @@ const Hero45 = ({
   );
 };
 
-export { Hero45 };
+export { Hero };
