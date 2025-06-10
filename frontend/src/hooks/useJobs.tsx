@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { api } from "../components/helper/api";
 
 interface Company {
   id: number;
@@ -59,7 +60,7 @@ export function useJobs(limit = 6) {
       setError(null);
       try {
         const response = await axios.get<JobsResponse>(
-          `http://127.0.0.1:9000/jobs/?format=json&limit=${limit}`
+          `${api.baseUrl}${api.jobs.list}?format=json&limit=${limit}`
         );
         setJobs(response.data.results);
       } catch (err: any) {
