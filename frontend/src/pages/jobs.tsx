@@ -151,7 +151,7 @@ export default function Jobs() {
     return (
         <>
             <div className="container mx-auto">
-                <Navbar />
+               
                 <div className="container mx-auto pt-0 pb-4">
                     <h1 className="text-2xl font-semibold text-right">- {jobs.length} jobs found</h1>
                 </div>

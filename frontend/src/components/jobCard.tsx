@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "./ui/card"
 import { Badge } from "./ui/badge"
+import { Link } from "react-router-dom"
 
 interface JobCardProps {
   title: string
@@ -17,6 +18,7 @@ interface JobCardProps {
   description: string
   tags: string[]
   postedDate: string
+  id: number
 }
 
 export function JobCard({
@@ -27,6 +29,7 @@ export function JobCard({
   description,
   tags,
   postedDate,
+  id,
 }: JobCardProps) {
   return (
     <Card className="w-full max-w-2xl hover:shadow-lg transition-shadow duration-200">
@@ -57,7 +60,9 @@ export function JobCard({
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         <p className="text-sm text-muted-foreground">Posted {postedDate}</p>
-        <Button>Apply Now</Button>
+        <Button asChild>
+          <Link to={`/jobs/${id}`}>Apply Now</Link>
+        </Button>
       </CardFooter>
     </Card>
   )

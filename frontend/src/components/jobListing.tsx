@@ -1,18 +1,7 @@
 import { JobCard } from "./jobCard";
 import { useJobs } from "../hooks/useJobs";
+import { formatSalary } from "./helper/formatSalary";
 
-function formatSalary(num: string | number) {
-    const n = typeof num === "string" ? parseFloat(num) : num;
-    if (isNaN(n)) return "";
-  
-    if (n >= 1_000_000) {
-      return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-    }
-    if (n >= 1_000) {
-      return (n / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
-    }
-    return n.toString();
-  }
 
   
 export function JobListing() {
@@ -39,6 +28,7 @@ export function JobListing() {
             description={job.description}
             tags={job.tags.map((tag) => tag.name)}
             postedDate={new Date(job.posted_date).toLocaleDateString()}
+            id={job.id}
           />
         ))}
       </div>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 export default function Signup() {
   return (
-    <div className="container mx-auto min-h-screen flex items-center justify-center">
+    <div className="container mx-auto mt-[20vh] flex items-center justify-center">
       <Card className="w-[400px]">
         <CardHeader>
           <CardTitle>Create an Account</CardTitle>

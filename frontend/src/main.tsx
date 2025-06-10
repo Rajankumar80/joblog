@@ -7,7 +7,9 @@ import Index from './pages/index.tsx'
 import Login from './pages/login.tsx'
 import Signup from './pages/signup.tsx'
 import Jobs from './pages/jobs.tsx'
+import JobDetails from './pages/detail.tsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { Navbar1 as Navbar } from "@/components/navbar"
 
 const router = createBrowserRouter([
   {
@@ -30,10 +32,15 @@ const router = createBrowserRouter([
     path: "*",
     element: <NotFoundPage />,
   },
+  {
+    path: "/jobs/:id",
+    element: <JobDetails />,
+  }
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Navbar />
     <RouterProvider router={router} />
   </StrictMode>,
 )
