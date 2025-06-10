@@ -36,7 +36,13 @@ export default function JobDetails() {
                 <div className="text-lg font-semibold">
                     {formatSalary(job.salary_min)} - {formatSalary(job.salary_max)}
                 </div>
-                <div className="text-sm text-muted-foreground">{job.job_type}</div>
+                <div className="text-sm text-muted-foreground">
+                  {job.job_type === 'FT' && 'Full-time'}
+                  {job.job_type === 'PT' && 'Part-time'} 
+                  {job.job_type === 'CT' && 'Contract'}
+                  {job.job_type === 'IN' && 'Internship'}
+                  {job.job_type === 'FR' && 'Freelance'}
+                </div>
               </div>
             </div>
           </CardHeader>

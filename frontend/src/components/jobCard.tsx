@@ -32,7 +32,7 @@ export function JobCard({
   id,
 }: JobCardProps) {
   return (
-    <Card className="w-full max-w-2xl hover:shadow-lg transition-shadow duration-200">
+    <Card className="w-full max-w-2xl hover:shadow-lg transition-shadow duration-200 justify-between">
       <CardHeader>
         <div className="flex justify-between items-start">
           <div>
