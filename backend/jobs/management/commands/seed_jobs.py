@@ -114,10 +114,24 @@ class Command(BaseCommand):
             'Lead'
         ]
 
+        job_boards = [
+            'linkedin.com/jobs',
+            'indeed.com/jobs',
+            'glassdoor.com/jobs',
+            'wellfound.com/jobs',
+            'stackoverflow.com/jobs'
+        ]
+
         for _ in range(20):
+            company = random.choice(companies)
+            title = random.choice(job_titles)
+            job_board = random.choice(job_boards)
+            # Create a URL-friendly job title
+            url_title = title.lower().replace(' ', '-')
+            
             Job.objects.create(
-                title=random.choice(job_titles),
-                company=random.choice(companies),
+                title=title,
+                company=company,
                 description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 requirements='- Bachelor\'s degree in related field\n- 5+ years of experience\n- Strong communication skills\n- Team player',
                 salary_min=random.randint(50000, 80000),
@@ -127,7 +141,8 @@ class Command(BaseCommand):
                 experience_level=random.choice(experience_levels),
                 posted_by=random.choice(recruiter_users),
                 is_active=True,
-                created_at=timezone.now()
+                created_at=timezone.now(),
+                apply_url=f'https://{job_board}/{company.name.lower().replace(" ", "-")}/{url_title}-{random.randint(10000, 99999)}'
             )
 
         self.stdout.write(self.style.SUCCESS('Successfully seeded database!'))

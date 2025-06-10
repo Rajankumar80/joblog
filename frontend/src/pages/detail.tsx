@@ -111,7 +111,9 @@ export default function JobDetails() {
 
             <Card>
               <CardContent className="pt-6">
-                <Button className="w-full">Apply Now</Button>
+                <a href={job.apply_url} target="_blank" rel="noopener noreferrer">
+                  <Button className="w-full">Apply Now</Button>
+                </a>
                 <p className="text-sm text-muted-foreground text-center mt-2">
                   Posted on: {new Date(job.created_at).toLocaleDateString()}
                 </p>

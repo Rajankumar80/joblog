@@ -58,6 +58,7 @@ class Job(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    apply_url = models.URLField(max_length=1500, null=True, blank=True, help_text="External URL where candidates can apply for this job")
 
     def __str__(self):
         return f"{self.title} at {self.company.name}"
