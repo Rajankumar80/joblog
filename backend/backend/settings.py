@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'jobs',
     'rest_framework',
     'corsheaders',
+    'rest_framework_json_api',
 ]
 
 REST_FRAMEWORK = {
@@ -61,7 +62,11 @@ REST_FRAMEWORK = {
             'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+        
     ],
+            
+            
 }
 
 

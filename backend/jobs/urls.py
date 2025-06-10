@@ -1,8 +1,9 @@
 from django.urls import path, include
 from . import views
-
-from rest_framework import routers, serializers, viewsets
+from rest_framework import routers, serializers, viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Company, Job, Tag
+from .filter import JobFilter
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,6 +34,11 @@ class TagViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = JobFilter  # ✅ use custom filterset
+    search_fields = ['title', 'description', 'company__name', 'tags__name']
+    ordering_fields = ['posted_date', 'salary_min', 'salary_max']
+
 
 
 router = routers.DefaultRouter()
