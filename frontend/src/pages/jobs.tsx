@@ -9,6 +9,102 @@ import { useJobs } from "../hooks/useJobs"
 import { formatSalary } from "../components/helper/formatSalary"
 import { Slider } from "../components/ui/slider"
 import type { Job } from "../hooks/useJobs"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../components/ui/sheet"
+import { SlidersHorizontal } from "lucide-react"
+
+function FiltersContent({ 
+    filters, 
+    handleFilterChange, 
+    handleSalaryMinChange, 
+    handleSalaryMaxChange,
+    jobTypes,
+    experienceLevels
+}: {
+    filters: any;
+    handleFilterChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    handleSalaryMinChange: (value: number[]) => void;
+    handleSalaryMaxChange: (value: number[]) => void;
+    jobTypes: string[];
+    experienceLevels: string[];
+}) {
+    return (
+            <div className="space-y-4 mx-6 ">
+            <div>
+                <h3 className="font-medium mb-2">Location</h3>
+                <input
+                    type="text"
+                    name="location"
+                    placeholder="Enter location"
+                    className="w-full p-2 border rounded"
+                    value={filters.location}
+                    onChange={handleFilterChange}
+                />
+            </div>
+            <div>
+                <h3 className="font-medium mb-2">Minimum Salary</h3>
+                <Slider
+                    defaultValue={[0]}
+                    max={200000}
+                    step={1000}
+                    onValueChange={handleSalaryMinChange}
+                />
+                <p className="mt-2">Min: {formatSalary(filters.salaryMin)}</p>
+            </div>
+            <div>
+                <h3 className="font-medium mb-2">Maximum Salary</h3>
+                <Slider
+                    defaultValue={[200000]}
+                    max={200000}
+                    step={1000}
+                    onValueChange={handleSalaryMaxChange}
+                />
+                <p className="mt-2">Max: {formatSalary(filters.salaryMax)}</p>
+            </div>
+            <div>
+                <h3 className="font-medium mb-2">Job Type</h3>
+                <select
+                    className="w-full p-2 border rounded"
+                    name="jobType"
+                    value={filters.jobType}
+                    onChange={handleFilterChange}
+                >
+                    <option value="">Any type</option>
+                    {jobTypes.map(type => (
+                        <option key={type} value={type}>{type}</option>
+                    ))}
+                </select>
+            </div>
+            <div>
+                <h3 className="font-medium mb-2">Experience Level</h3>
+                <select
+                    className="w-full p-2 border rounded"
+                    name="experienceLevel"
+                    value={filters.experienceLevel}
+                    onChange={handleFilterChange}
+                >
+                    <option value="">Any level</option>
+                    {experienceLevels.map(level => (
+                        <option key={level} value={level}>{level}</option>
+                    ))}
+                </select>
+            </div>
+            <div>
+                <h3 className="font-medium mb-2">Posted Within</h3>
+                <select 
+                    className="w-full p-2 border rounded"
+                    name="postedWithin"
+                    value={filters.postedWithin}
+                    onChange={handleFilterChange}
+                >
+                    <option value="">Any time</option>
+                    <option value="24h">Last 24 hours</option>
+                    <option value="7d">Last 7 days</option>
+                    <option value="30d">Last 30 days</option>
+                </select>
+            </div>
+        </div>
+    );
+}
 
 export default function Jobs() {
     const [filters, setFilters] = useState({
@@ -97,8 +193,31 @@ export default function Jobs() {
             <div className="container mx-auto">
                 <div className="container mx-auto pt-0 pb-4 flex justify-between items-center">
                     <h1 className="text-2xl font-semibold">- {filteredJobs.length} jobs found</h1>
-                    <div className="flex items-center">
-                        <label htmlFor="sort" className="mr-2">Sort by:</label>
+                    <div className="flex items-center gap-2">
+                        <div className="block lg:hidden">
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button variant="outline" size="icon">
+                                        <SlidersHorizontal className="h-4 w-4" />
+                                    </Button>
+                                </SheetTrigger>
+                                <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                                    <SheetHeader>
+                                        <SheetTitle>Filters</SheetTitle>
+                                    </SheetHeader>
+                                    <div className="py-4">
+                                        <FiltersContent
+                                            filters={filters}
+                                            handleFilterChange={handleFilterChange}
+                                            handleSalaryMinChange={handleSalaryMinChange}
+                                            handleSalaryMaxChange={handleSalaryMaxChange}
+                                            jobTypes={jobTypes}
+                                            experienceLevels={experienceLevels}
+                                        />
+                                    </div>
+                                </SheetContent>
+                            </Sheet>
+                        </div>
                         <select
                             id="sort"
                             className="p-2 border rounded"
@@ -111,85 +230,18 @@ export default function Jobs() {
                         </select>
                     </div>
                 </div>
-                <div className="flex flex-col lg:flex-row relative sm:mx-auto" >
-                    {/* Sidebar */}
-                    <aside className="w-full lg:w-64 pr-0 lg:pr-8 mb-8 lg:mb-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto" style={{ maxHeight: 'calc(100vh - 80px)' }}>
+                <div className="flex flex-col lg:flex-row relative sm:mx-auto">
+                    {/* Sidebar - Hidden on mobile */}
+                    <aside className="hidden lg:block w-64 pr-8 mb-8 lg:mb-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto" style={{ maxHeight: 'calc(100vh - 80px)' }}>
                         <h2 className="text-xl font-semibold mb-4">Filters</h2>
-                        <div className="space-y-4">
-                            <div>
-                                <h3 className="font-medium mb-2">Location</h3>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    placeholder="Enter location"
-                                    className="w-full p-2 border rounded"
-                                    value={filters.location}
-                                    onChange={handleFilterChange}
-                                />
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">Minimum Salary</h3>
-                                <Slider
-                                    defaultValue={[0]}
-                                    max={200000}
-                                    step={1000}
-                                    onValueChange={handleSalaryMinChange}
-                                />
-                                <p className="mt-2">Min: {formatSalary(filters.salaryMin)}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">Maximum Salary</h3>
-                                <Slider
-                                    defaultValue={[200000]}
-                                    max={200000}
-                                    step={1000}
-                                    onValueChange={handleSalaryMaxChange}
-                                />
-                                <p className="mt-2">Max: {formatSalary(filters.salaryMax)}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">Job Type</h3>
-                                <select
-                                    className="w-full p-2 border rounded"
-                                    name="jobType"
-                                    value={filters.jobType}
-                                    onChange={handleFilterChange}
-                                >
-                                    <option value="">Any type</option>
-                                    {jobTypes.map(type => (
-                                        <option key={type} value={type}>{type}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">Experience Level</h3>
-                                <select
-                                    className="w-full p-2 border rounded"
-                                    name="experienceLevel"
-                                    value={filters.experienceLevel}
-                                    onChange={handleFilterChange}
-                                >
-                                    <option value="">Any level</option>
-                                    {experienceLevels.map(level => (
-                                        <option key={level} value={level}>{level}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <h3 className="font-medium mb-2">Posted Within</h3>
-                                <select 
-                                    className="w-full p-2 border rounded"
-                                    name="postedWithin"
-                                    value={filters.postedWithin}
-                                    onChange={handleFilterChange}
-                                >
-                                    <option value="">Any time</option>
-                                    <option value="24h">Last 24 hours</option>
-                                    <option value="7d">Last 7 days</option>
-                                    <option value="30d">Last 30 days</option>
-                                </select>
-                            </div>
-                        </div>
+                        <FiltersContent
+                            filters={filters}
+                            handleFilterChange={handleFilterChange}
+                            handleSalaryMinChange={handleSalaryMinChange}
+                            handleSalaryMaxChange={handleSalaryMaxChange}
+                            jobTypes={jobTypes}
+                            experienceLevels={experienceLevels}
+                        />
                     </aside>
 
                     {/* Main content */}
@@ -227,5 +279,5 @@ export default function Jobs() {
                 <Footer />
             </div>
         </>
-    )
+    );
 }
