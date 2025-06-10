@@ -10,6 +10,8 @@ import Jobs from './pages/jobs.tsx'
 import JobDetails from './pages/detail.tsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Navbar1 as Navbar } from "@/components/navbar"
+import { AuthProvider } from '@/lib/auth'
+import { Toaster } from "@/components/ui/toaster"
 
 const router = createBrowserRouter([
   {
@@ -40,7 +42,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Navbar />
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <Navbar />
+      <RouterProvider router={router} />
+      <Toaster />
+    </AuthProvider>
   </StrictMode>,
 )

@@ -4,4 +4,7 @@ export const api = {
         list: "/jobs/",
         detail: (id: number) => `/jobs/${id}/`,
     },
+    auth: {
+        login: "/api-token-auth/",
+    },
 }

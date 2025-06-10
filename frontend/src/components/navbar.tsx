@@ -1,5 +1,7 @@
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAuth } from "@/lib/auth"
 
 import {
   Accordion,
@@ -145,6 +147,8 @@ const Navbar1 = ({
     signup: { title: "Sign up", url: "/signup" },
   },
 }: Navbar1Props) => {
+  const { user, isAuthenticated } = useAuth();
+
   return (
     <section className="py-4">
       <div className="container mx-auto">
@@ -168,12 +172,21 @@ const Navbar1 = ({
           </div>
 
           <div className="flex gap-2">
-            <Button asChild variant="outline" size="">
-              <a href={auth.login.url}>{auth.login.title}</a>
-            </Button>
-            <Button asChild size="">
-              <a href={auth.signup.url}>{auth.signup.title}</a>
-            </Button>
+            {isAuthenticated ? (
+              <Avatar>
+                <AvatarImage src={user?.avatar} alt={user?.username} />
+                <AvatarFallback>{user?.username?.charAt(0).toUpperCase()}</AvatarFallback>
+              </Avatar>
+            ) : (
+              <>
+                <Button asChild variant="outline" size="">
+                  <a href={auth.login.url}>{auth.login.title}</a>
+                </Button>
+                <Button asChild size="">
+                  <a href={auth.signup.url}>{auth.signup.title}</a>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -209,14 +222,24 @@ const Navbar1 = ({
                   <div className="flex flex-col gap-3">
                     <Input placeholder="Search jobs" />
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.title}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
-                    </Button>
-                  </div>
+                  {isAuthenticated ? (
+                    <div className="flex items-center gap-2">
+                      <Avatar>
+                        <AvatarImage src={user?.avatar} alt={user?.username} />
+                        <AvatarFallback>{user?.username?.charAt(0).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                      <span>{user?.username}</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      <Button asChild variant="outline">
+                        <a href={auth.login.url}>{auth.login.title}</a>
+                      </Button>
+                      <Button asChild>
+                        <a href={auth.signup.url}>{auth.signup.title}</a>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

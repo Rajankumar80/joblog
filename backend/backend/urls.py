@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from jobs import views as jobs_views
 
 urlpatterns = [
     path('', include('jobs.urls')),
     path('admin/', admin.site.urls),
+    path('api-token-auth/', jobs_views.obtain_auth_token),
 ]
