@@ -1,152 +1,16 @@
-import { Navbar1 as Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@radix-ui/react-separator"
+import { Link } from "react-router-dom"
+import { useJobs } from "../hooks/useJobs"
+import { formatSalary } from "../components/helper/formatSalary"
 
 export default function Jobs() {
-    const jobs = [
-        {
-            title: "Senior Frontend Developer",
-            company: "Acme Inc",
-            location: "San Francisco, CA",
-            salary: "$140k - $180k",
-            description: "We're looking for an experienced frontend developer to join our growing team.",
-            tags: ["React", "TypeScript", "Next.js"],
-            postedDate: "2d ago"
-        },
-        {
-            title: "Backend Engineer",
-            company: "TechCorp",
-            location: "Remote",
-            salary: "$130k - $160k",
-            description: "Join us in building scalable backend services using modern technologies.",
-            tags: ["Node.js", "Python", "AWS"],
-            postedDate: "5d ago"
-        },
-        {
-            title: "Full Stack Developer",
-            company: "StartupCo",
-            location: "New York, NY",
-            salary: "$120k - $150k",
-            description: "Looking for a full stack developer who can work across our entire tech stack.",
-            tags: ["React", "Node.js", "MongoDB"],
-            postedDate: "1w ago"
-        }
-        ,
-        {
-            title: "Senior Frontend Developer",
-            company: "Acme Inc",
-            location: "San Francisco, CA",
-            salary: "$140k - $180k",
-            description: "We're looking for an experienced frontend developer to join our growing team.",
-            tags: ["React", "TypeScript", "Next.js"],
-            postedDate: "2d ago"
-        },
-        {
-            title: "Backend Engineer",
-            company: "TechCorp",
-            location: "Remote",
-            salary: "$130k - $160k",
-            description: "Join us in building scalable backend services using modern technologies.",
-            tags: ["Node.js", "Python", "AWS"],
-            postedDate: "5d ago"
-        },
-        {
-            title: "Full Stack Developer",
-            company: "StartupCo",
-            location: "New York, NY",
-            salary: "$120k - $150k",
-            description: "Looking for a full stack developer who can work across our entire tech stack.",
-            tags: ["React", "Node.js", "MongoDB"],
-            postedDate: "1w ago"
-        }
-        ,
-        {
-            title: "Senior Frontend Developer",
-            company: "Acme Inc",
-            location: "San Francisco, CA",
-            salary: "$140k - $180k",
-            description: "We're looking for an experienced frontend developer to join our growing team.",
-            tags: ["React", "TypeScript", "Next.js"],
-            postedDate: "2d ago"
-        },
-        {
-            title: "Backend Engineer",
-            company: "TechCorp",
-            location: "Remote",
-            salary: "$130k - $160k",
-            description: "Join us in building scalable backend services using modern technologies.",
-            tags: ["Node.js", "Python", "AWS"],
-            postedDate: "5d ago"
-        },
-        {
-            title: "Full Stack Developer",
-            company: "StartupCo",
-            location: "New York, NY",
-            salary: "$120k - $150k",
-            description: "Looking for a full stack developer who can work across our entire tech stack.",
-            tags: ["React", "Node.js", "MongoDB"],
-            postedDate: "1w ago"
-        }
-        ,
-        {
-            title: "Senior Frontend Developer",
-            company: "Acme Inc",
-            location: "San Francisco, CA",
-            salary: "$140k - $180k",
-            description: "We're looking for an experienced frontend developer to join our growing team.",
-            tags: ["React", "TypeScript", "Next.js"],
-            postedDate: "2d ago"
-        },
-        {
-            title: "Backend Engineer",
-            company: "TechCorp",
-            location: "Remote",
-            salary: "$130k - $160k",
-            description: "Join us in building scalable backend services using modern technologies.",
-            tags: ["Node.js", "Python", "AWS"],
-            postedDate: "5d ago"
-        },
-        {
-            title: "Full Stack Developer",
-            company: "StartupCo",
-            location: "New York, NY",
-            salary: "$120k - $150k",
-            description: "Looking for a full stack developer who can work across our entire tech stack.",
-            tags: ["React", "Node.js", "MongoDB"],
-            postedDate: "1w ago"
-        }
-        ,
-        {
-            title: "Senior Frontend Developer",
-            company: "Acme Inc",
-            location: "San Francisco, CA",
-            salary: "$140k - $180k",
-            description: "We're looking for an experienced frontend developer to join our growing team.",
-            tags: ["React", "TypeScript", "Next.js"],
-            postedDate: "2d ago"
-        },
-        {
-            title: "Backend Engineer",
-            company: "TechCorp",
-            location: "Remote",
-            salary: "$130k - $160k",
-            description: "Join us in building scalable backend services using modern technologies.",
-            tags: ["Node.js", "Python", "AWS"],
-            postedDate: "5d ago"
-        },
-        {
-            title: "Full Stack Developer",
-            company: "StartupCo",
-            location: "New York, NY",
-            salary: "$120k - $150k",
-            description: "Looking for a full stack developer who can work across our entire tech stack.",
-            tags: ["React", "Node.js", "MongoDB"],
-            postedDate: "1w ago"
-        }
-    ]
+    const { jobs, loading, error } = useJobs(100);
+
+    if (loading) return <div>Loading jobs...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <>
@@ -218,20 +82,22 @@ export default function Jobs() {
                                         <Card key={index}>
                                             <CardHeader>
                                                 <CardTitle>{job.title}</CardTitle>
-                                                <CardDescription>{job.company} • {job.location}</CardDescription>
+                                                <CardDescription>{job.company.name} • {job.location}</CardDescription>
                                             </CardHeader>
                                             <CardContent>
-                                                <p className="text-lg font-semibold text-primary mb-2">{job.salary}</p>
+                                                <p className="text-lg font-semibold text-primary mb-2">{formatSalary(job.salary_min)} - {formatSalary(job.salary_max)}</p>
                                                 <p className="text-muted-foreground mb-4">{job.description}</p>
                                                 <div className="flex flex-wrap gap-2">
                                                     {job.tags.map((tag, i) => (
-                                                        <Badge key={i} variant="secondary">{tag}</Badge>
+                                                        <Badge key={i} variant="secondary">{tag.name}</Badge>
                                                     ))}
                                                 </div>
                                             </CardContent>
                                             <CardFooter className="flex justify-between items-center">
-                                                <span className="text-sm text-muted-foreground">{job.postedDate}</span>
-                                                <Button>Apply Now</Button>
+                                                <span className="text-sm text-muted-foreground">{new Date(job.posted_date).toLocaleDateString()}</span>
+                                                <Button asChild>
+                                                    <Link to={`/jobs/${job.id}`}>Apply Now</Link>
+                                                </Button>
                                             </CardFooter>
                                         </Card>
                                     ))}
