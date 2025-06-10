@@ -16,7 +16,8 @@ interface JobCardProps {
   location: string
   salary?: string
   description: string
-  tags: string[]
+  jobType: string
+  experienceLevel: string
   postedDate: string
   id: number
 }
@@ -27,7 +28,8 @@ export function JobCard({
   location,
   salary,
   description,
-  tags,
+  jobType,
+  experienceLevel,
   postedDate,
   id,
 }: JobCardProps) {
@@ -51,11 +53,8 @@ export function JobCard({
       <CardContent>
         <p className="text-sm text-muted-foreground mb-4">{description}</p>
         <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <Badge key={tag} variant="outline">
-              {tag}
-            </Badge>
-          ))}
+          <Badge variant="outline">{jobType}</Badge>
+          <Badge variant="outline">{experienceLevel}</Badge>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between items-center">

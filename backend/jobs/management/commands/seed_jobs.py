@@ -1,73 +1,133 @@
 from django.core.management.base import BaseCommand
-from jobs.models import Company, Job, Tag
+from django.contrib.auth import get_user_model
+from jobs.models import Company, Job, UserProfile
 from django.utils import timezone
 import random
 
+User = get_user_model()
+
 class Command(BaseCommand):
-    help = "Seed the database with dummy job listings"
+    help = 'Seeds the database with sample jobs data'
 
     def handle(self, *args, **kwargs):
-        tags = ['Python', 'Django', 'Remote', 'Full-time', 'Backend', 'AI', 'Frontend', 'DevOps', 'Data Science', 'Machine Learning']
-        tag_objs = [Tag.objects.get_or_create(name=tag)[0] for tag in tags]
+        self.stdout.write('Seeding database...')
 
-        companies = [
+        # Create sample users
+        self.stdout.write('Creating users...')
+        
+        # Create admin user
+        admin_user = User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='admin123'
+        )
+        admin_user.profile.is_recruiter = True
+        admin_user.profile.save()
+        
+        # Create regular users
+        regular_users = []
+        for i in range(5):
+            user = User.objects.create_user(
+                username=f'user{i}',
+                email=f'user{i}@example.com',
+                password='user123',
+                first_name=f'User{i}',
+                last_name='Smith'
+            )
+            regular_users.append(user)
+
+        # Create recruiter users
+        recruiter_users = []
+        for i in range(3):
+            user = User.objects.create_user(
+                username=f'recruiter{i}',
+                email=f'recruiter{i}@example.com',
+                password='recruiter123',
+                first_name=f'Recruiter{i}',
+                last_name='Johnson'
+            )
+            user.profile.is_recruiter = True
+            user.profile.save()
+            recruiter_users.append(user)
+
+        # Create sample companies
+        self.stdout.write('Creating companies...')
+        companies = []
+        company_data = [
             {
-                'name': "Joblog Inc",
-                'description': "Leading job platform",
-                'website': "https://joblog.com",
-                'location': "New York, NY",
-                'employee_count': 100,
-                'founded_year': 2020,
-                'industry': "Tech",
+                'name': 'Tech Innovators Inc.',
+                'description': 'Leading technology company focused on innovation',
+                'website': 'https://techinnovators.com',
+                'location': 'San Francisco, CA',
+                'employee_count': 500,
+                'founded_year': 2010,
+                'industry': 'Technology'
             },
             {
-                'name': "TechGiant Corp",
-                'description': "Innovative tech solutions",
-                'website': "https://techgiant.com",
-                'location': "San Francisco, CA",
-                'employee_count': 5000,
-                'founded_year': 2005,
-                'industry': "Technology",
-            },
-            {
-                'name': "StartupX",
-                'description': "Disruptive startup",
-                'website': "https://startupx.io",
-                'location': "Austin, TX",
-                'employee_count': 50,
-                'founded_year': 2022,
-                'industry': "Software",
-            },
-            {
-                'name': "DataDriven LLC",
-                'description': "Data-focused solutions",
-                'website': "https://datadriven.com",
-                'location': "Boston, MA",
+                'name': 'Digital Solutions Ltd',
+                'description': 'Digital transformation and consulting services',
+                'website': 'https://digitalsolutions.com',
+                'location': 'New York, NY',
                 'employee_count': 200,
-                'founded_year': 2018,
-                'industry': "Data Analytics",
+                'founded_year': 2015,
+                'industry': 'Consulting'
             },
+            {
+                'name': 'Green Energy Co',
+                'description': 'Renewable energy solutions provider',
+                'website': 'https://greenenergy.com',
+                'location': 'Austin, TX',
+                'employee_count': 300,
+                'founded_year': 2012,
+                'industry': 'Energy'
+            }
         ]
 
-        company_objs = [Company.objects.get_or_create(**company)[0] for company in companies]
+        for data in company_data:
+            company = Company.objects.create(**data)
+            companies.append(company)
 
-        for i in range(20):
-            company = random.choice(company_objs)
-            posted_date = timezone.now() - timezone.timedelta(days=random.randint(1, 60))
-            deadline = posted_date + timezone.timedelta(days=random.randint(14, 90))
-            
-            job = Job.objects.create(
-                title=f"Software Engineer {i+1}",
-                company=company,
-                description="Build cool stuff with cutting-edge technologies.",
-                location=random.choice(["Remote", company.location, "Hybrid"]),
-                salary_min=random.randint(50000, 100000),
-                salary_max=random.randint(100000, 200000),
-                posted_date=posted_date,
-                deadline=deadline,
+        # Create sample jobs
+        self.stdout.write('Creating jobs...')
+        job_titles = [
+            'Senior Software Engineer',
+            'Product Manager',
+            'Data Scientist',
+            'UX Designer',
+            'DevOps Engineer',
+            'Marketing Manager',
+            'Sales Representative',
+            'Project Manager'
+        ]
+
+        job_types = [
+            'Full-time',
+            'Part-time',
+            'Contract',
+            'Remote'
+        ]
+
+        experience_levels = [
+            'Entry Level',
+            'Mid Level',
+            'Senior Level',
+            'Lead'
+        ]
+
+        for _ in range(20):
+            Job.objects.create(
+                title=random.choice(job_titles),
+                company=random.choice(companies),
+                description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                requirements='- Bachelor\'s degree in related field\n- 5+ years of experience\n- Strong communication skills\n- Team player',
+                salary_min=random.randint(50000, 80000),
+                salary_max=random.randint(90000, 150000),
+                location=random.choice(['San Francisco, CA', 'New York, NY', 'Austin, TX', 'Remote']),
+                job_type=random.choice(job_types),
+                experience_level=random.choice(experience_levels),
+                posted_by=random.choice(recruiter_users),
                 is_active=True,
-                application_url=f"https://{company.website}/apply"
+                created_at=timezone.now()
             )
-            job.tags.set(random.sample(tag_objs, k=random.randint(2, 5)))
 
-        self.stdout.write(self.style.SUCCESS("Dummy jobs created with various companies and dates."))
+        self.stdout.write(self.style.SUCCESS('Successfully seeded database!'))

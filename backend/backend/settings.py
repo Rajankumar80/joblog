@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 ]
 
+AUTH_USER_MODEL = 'jobs.User'
+
 REST_FRAMEWORK = {
     
     'PAGE_SIZE': 6,  

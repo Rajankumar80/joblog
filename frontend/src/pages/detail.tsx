@@ -5,7 +5,6 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { formatSalary } from "../components/helper/formatSalary";
 
-
 export default function JobDetails() {
   const { id } = useParams();
   const { job, loading, error } = useJob(Number(id));
@@ -14,8 +13,7 @@ export default function JobDetails() {
   if (error) return <div>Error: {error}</div>;
   if (!job) return <div>Job not found</div>;
 
-      return (
-   
+  return (
     <div className="container mx-auto py-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
@@ -29,19 +27,15 @@ export default function JobDetails() {
                   <span>•</span>
                   <span>{job.location}</span>
                   <span>•</span>
-                  <span>{job.work_mode}</span>
+                  <span>{job.job_type}</span>
                 </CardDescription>
               </div>
               <div className="text-right">
                 <div className="text-lg font-semibold">
-                    {formatSalary(job.salary_min)} - {formatSalary(job.salary_max)}
+                  {formatSalary(job.salary_min)} - {formatSalary(job.salary_max)}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  {job.job_type === 'FT' && 'Full-time'}
-                  {job.job_type === 'PT' && 'Part-time'} 
-                  {job.job_type === 'CT' && 'Contract'}
-                  {job.job_type === 'IN' && 'Internship'}
-                  {job.job_type === 'FR' && 'Freelance'}
+                  {job.experience_level}
                 </div>
               </div>
             </div>
@@ -63,15 +57,21 @@ export default function JobDetails() {
 
             <Card className="mb-6">
               <CardHeader>
-                <CardTitle>Required Skills</CardTitle>
+                <CardTitle>Requirements</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="whitespace-pre-wrap">{job.requirements}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Job Details</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {job.tags.map(tag => (
-                    <Badge key={tag.id} variant="secondary">
-                      {tag.name}
-                    </Badge>
-                  ))}
+                  <Badge variant="secondary">{job.job_type}</Badge>
+                  <Badge variant="secondary">{job.experience_level}</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -111,17 +111,9 @@ export default function JobDetails() {
 
             <Card>
               <CardContent className="pt-6">
-                <Button className="w-full" asChild>
-                  <a 
-                    href={job.application_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Apply Now
-                  </a>
-                </Button>
+                <Button className="w-full">Apply Now</Button>
                 <p className="text-sm text-muted-foreground text-center mt-2">
-                  Application deadline: {new Date(job.deadline).toLocaleDateString()}
+                  Posted on: {new Date(job.created_at).toLocaleDateString()}
                 </p>
               </CardContent>
             </Card>

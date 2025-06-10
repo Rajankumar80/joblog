@@ -16,30 +16,21 @@ interface Company {
     updated_at: string;
 }
 
-interface Tag {
-    id: number;
-    name: string;
-    is_skill: boolean;
-    created_at: string;
-}
-
 export interface Job {
     id: number;
     company: Company;
-    tags: Tag[];
     title: string;
     description: string;
+    requirements: string;
     location: string;
     salary_min: string;
     salary_max: string;
     job_type: string;
-    work_mode: string;
-    application_url: string;
-    posted_date: string;
-    deadline: string;
+    experience_level: string;
     is_active: boolean;
-    is_featured: boolean;
-    posted_by: string | null;
+    created_at: string;
+    updated_at: string;
+    posted_by: number;
 }
 
 export function useJob(id: number) {

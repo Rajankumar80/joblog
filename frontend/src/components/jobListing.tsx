@@ -2,13 +2,12 @@ import { JobCard } from "./jobCard";
 import { useJobs } from "../hooks/useJobs";
 import { formatSalary } from "./helper/formatSalary";
 
-
-  
 export function JobListing() {
   const { jobs, loading, error } = useJobs(6);
 
   if (loading) return <div>Loading jobs...</div>;
   if (error) return <div>Error: {error}</div>;
+  if (!jobs) return <div>No jobs found.</div>;
 
   return (
     <section className="pb-12 max-w-8xl mx-auto">
@@ -24,10 +23,10 @@ export function JobListing() {
             company={job.company.name}
             location={job.location}
             salary={`${formatSalary(job.salary_min)} - ${formatSalary(job.salary_max)}`}
-
             description={job.description}
-            tags={job.tags.map((tag) => tag.name)}
-            postedDate={new Date(job.posted_date).toLocaleDateString()}
+            jobType={job.job_type}
+            experienceLevel={job.experience_level}
+            postedDate={new Date(job.created_at).toLocaleDateString()}
             id={job.id}
           />
         ))}

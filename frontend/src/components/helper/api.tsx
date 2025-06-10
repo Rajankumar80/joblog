@@ -6,5 +6,6 @@ export const api = {
     },
     auth: {
         login: "/api-token-auth/",
+        signup: "/register/",
     },
 }

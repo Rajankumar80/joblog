@@ -1,11 +1,14 @@
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from rest_framework import permissions, viewsets, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
-from .serializers import GroupSerializer, UserSerializer
+from .serializers import GroupSerializer, UserSerializer, CompanySerializer
+from .models import Company
 
+User = get_user_model()
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
@@ -33,7 +36,8 @@ def obtain_auth_token(request):
         'token': token.key,
         'user_id': user.pk,
         'email': user.email,
-        'username': user.username
+        'username': user.username,
+        'is_recruiter': user.is_recruiter
     })
 
 
@@ -50,9 +54,36 @@ def register_user(request):
         return Response({
             'token': token.key,
             'user_id': user.pk,
-            'email': user.email
-        }, status=status.HTTP_201_CREATED)
+            'username': user.username,
+            'is_recruiter': user.profile.is_recruiter
+        })
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def login_user(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    if username is None or password is None:
+        return Response({'error': 'Please provide both username and password'},
+                    status=status.HTTP_400_BAD_REQUEST)
+    
+    user = authenticate(username=username, password=password)
+    
+    if not user:
+        return Response({'error': 'Invalid Credentials'},
+                    status=status.HTTP_404_NOT_FOUND)
+    
+    token, _ = Token.objects.get_or_create(user=user)
+    
+    return Response({
+        'token': token.key,
+        'user_id': user.pk,
+        'username': user.username,
+        'is_recruiter': user.profile.is_recruiter
+    })
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -70,4 +101,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all().order_by('name')
     serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticated]

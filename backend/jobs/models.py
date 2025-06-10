@@ -1,7 +1,29 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-User = get_user_model()
+class User(AbstractUser):
+    # Add any additional fields here if needed
+    pass
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    is_recruiter = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username}'s profile"
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    if not hasattr(instance, 'profile'):
+        UserProfile.objects.create(user=instance)
+    instance.profile.save()
 
 class Company(models.Model):
     name = models.CharField(max_length=500)
@@ -22,52 +44,23 @@ class Company(models.Model):
         verbose_name_plural = "Companies"
         ordering = ['-created_at']
 
-
-class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    is_skill = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']
-
-
 class Job(models.Model):
-    JOB_TYPES = [
-        ('FT', 'Full-time'),
-        ('PT', 'Part-time'),
-        ('CT', 'Contract'),
-        ('IN', 'Internship'),
-        ('FR', 'Freelance'),
-    ]
-
-    WORK_MODES = [
-        ('REMOTE', 'Remote'),
-        ('ONSITE', 'On-site'),
-        ('HYBRID', 'Hybrid'),
-    ]
-
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=200)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='jobs')
     description = models.TextField()
-    location = models.CharField(max_length=255)
+    requirements = models.TextField()
     salary_min = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     salary_max = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    job_type = models.CharField(max_length=2, choices=JOB_TYPES, default='FT')
-    work_mode = models.CharField(max_length=10, choices=WORK_MODES, default='ONSITE')
-    application_url = models.URLField(help_text="External link where users will apply.", null=True, blank=True)
-    posted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='posted_jobs')
-    posted_date = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField(null=True, blank=True)
+    location = models.CharField(max_length=200)
+    job_type = models.CharField(max_length=50)  # Full-time, Part-time, Contract, etc.
+    experience_level = models.CharField(max_length=50)  # Entry, Mid, Senior, etc.
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_jobs')
     is_active = models.BooleanField(default=True)
-    is_featured = models.BooleanField(default=False)
-    tags = models.ManyToManyField(Tag, related_name='jobs', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.title} at {self.company.name}"
 
     class Meta:
-        ordering = ['-posted_date']
+        ordering = ['-created_at']

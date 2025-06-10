@@ -219,9 +219,6 @@ const Navbar1 = ({
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
-                  <div className="flex flex-col gap-3">
-                    <Input placeholder="Search jobs" />
-                  </div>
                   {isAuthenticated ? (
                     <div className="flex items-center gap-2">
                       <Avatar>
