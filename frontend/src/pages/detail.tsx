@@ -3,6 +3,8 @@ import { useJob } from "../hooks/useJob";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+import { formatSalary } from "../components/helper/formatSalary";
+
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -15,7 +17,7 @@ export default function JobDetails() {
       return (
    
     <div className="container mx-auto py-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <Card className="mb-6">
           <CardHeader>
@@ -32,7 +34,7 @@ export default function JobDetails() {
               </div>
               <div className="text-right">
                 <div className="text-lg font-semibold">
-                  ${job.salary_min.split('.')[0]} - ${job.salary_max.split('.')[0]}
+                    {formatSalary(job.salary_min)} - {formatSalary(job.salary_max)}
                 </div>
                 <div className="text-sm text-muted-foreground">{job.job_type}</div>
               </div>
