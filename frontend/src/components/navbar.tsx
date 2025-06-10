@@ -1,4 +1,5 @@
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useAuth } from "@/lib/auth"
@@ -172,11 +173,16 @@ const Navbar1 = ({
           </div>
 
           <div className="flex gap-2">
+             
             {isAuthenticated ? (
+              <Link to="/dashboard" className="flex items-center gap-2">
+
               <Avatar>
                 <AvatarImage src={user?.avatar} alt={user?.username} />
                 <AvatarFallback>{user?.username?.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
+              <span>{user?.username}</span>
+              </Link>
             ) : (
               <>
                 <Button asChild variant="outline" size="">
